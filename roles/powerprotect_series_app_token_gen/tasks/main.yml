@@ -1,0 +1,32 @@
+---
+# tasks file for powerprotect_series_app_token_gen
+
+# Grab an AUTH token our solution can use to interact with PowerProtect DataDomain
+- name: POST - Create authentication token.
+  uri:
+      # API DOC EXAMPLE - https://localhost:3009/rest/v1.0/auth
+      validate_certs: no
+      url: "https://{{ ddsa_ip }}:{{ ddsa_port }}/rest/v1.0/auth"
+      method: POST
+      body_format: json
+      body: "{ \"auth_info\": {\"username\":\"{{ username }}\", \"password\":\"{{ password }}\" }}"
+      status_code: 201 # per the documenation, an HTTP 201 is returned to our lookup
+  register: results
+
+- name: Show the results
+  debug:
+          var: results
+          verbosity: 1
+
+- name: Show JUST the token
+  debug:
+          var: results.X-DD-AUTH-TOKEN
+          verbosity: 1
+
+- name: Create a new variable on the fly to make the token more accessible
+  set_fact:
+          token: "{{ results.x_dd_auth_token }}"
+
+- name: Show JUST the token
+  debug:
+          var: token

@@ -1,0 +1,10 @@
+[powerprotect_ddsa]
+ddsa01 	ddsa_ip=10.0.0.5
+ddsa02 	ddsa_ip=172.1.2.70      username=mike  password=uniquePassword
+ddsa03 	ddsa_ip=192.168.1.55
+ddsa04 	ddsa_ip=172.53.2.11  	ddsa_port=33333
+
+[powerprotect_ddsa:vars]
+username=admin 
+password=qwerty1234
+ddsa_port=3309

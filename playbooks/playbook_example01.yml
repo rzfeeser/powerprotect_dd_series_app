@@ -1,0 +1,28 @@
+---
+- name: PowerProtect Data Domain Series Appliances - Example
+  
+  # if you only have a SINGLE api endpoint,
+  # it is prob easiest not even to mess with an inventory
+  #hosts: localhost
+  #
+  # in our case, we have MULTIPLE api endpoints
+  hosts: powerprotect_ddsa # resolved in an inventory (we want to leverage concurrnt behavior... i.e forking)
+  
+  # anytime your playbook is doing HTTP (exclusively)
+  connetion: local # set connection to local (no SSH protocol)
+
+  # if this does run, we end up gather facts about OURSELF
+  gather_facts: false
+
+  # this section runs just BEFORE tasks
+  # this should return a variable named "token" that we can reference
+  roles:
+          - powerprotect_series_app_token_gen   # this returns a var "token"
+          - powerprotect_series_gather_info     # this consumes the "token" and returns "powerprotect_series_app_info"
+          - powerprotect_series_precheck        # this consumes "powerprotect_series_app_info" and determines if we can continue
+
+  # tasks are being created from documentation available @ https://developer.dell.com/apis/4118/versions/7.8/reference
+  tasks:
+          - name: Design your first task against the PowerProtect DD Series App with some assurances that it is ready to accept work
+            debug:
+                    msg: "See roles for examples on how to communcate with PPDDSA"

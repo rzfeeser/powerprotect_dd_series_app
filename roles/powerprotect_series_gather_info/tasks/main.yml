@@ -1,0 +1,38 @@
+---
+# tasks file for powerprotect_series_gat
+
+
+# GET - File System Information
+- name: GET - File System Information
+  uri:
+      # API DOC EXAMPLE - https://localhost:3009/rest/v1.0/system
+      url: "https://{{ ddsa_ip }}:{{ ddsa_port }}/rest/v1.0/system"
+      method: GET # copied from API documentation
+      status_code: 200  # default (it worked)
+      body:
+              Content-Type: application/json
+              Accept: application/json
+              X-DD-AUTH-TOKEN: "{{ token }}" # this was returned by the role powerprotect_series_app_token_gen
+  register: powerprotect_series_app_info # this variable could be named anything
+
+  # - name: EXAMPLE OF HOW TO ADD ADDTIONAL FACTS...
+  #   uri:
+  #       # API DOC EXAMPLE - https://localhost:3009/rest/v1.0/system
+  #       url: "https://{{ ddsa_ip }}:{{ ddsa_port }}/rest/v1.0/SOME OTHER API ENDPOINT THAT HAS FACTS"
+  #       method: GET # copied from API documentation
+  #       status_code: 200  # default (it worked)
+  #       body:     
+  #               Content-Type: application/json
+  #               Accept: application/json
+  #               X-DD-AUTH-TOKEN: "{{ token }}" # this was returned by the role powerprotect_series_app_token_gen
+  #   register: powerprotect_series_app_info2 # this variable could be named anything
+  # 
+  # - name: Combine our fact sets
+  #   set_fact:
+  #         powerprotect_series_app_info: "{{ powerprotect_series_app_info + powerprotect_series_app_info2 }}"
+
+# display the results (if verbosity is set to atleast 1)
+- name: Show the results of our system information
+  debug:
+          var: powerprotect_series_app_info
+          verbosity: 1
